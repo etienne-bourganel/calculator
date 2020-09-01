@@ -40,6 +40,7 @@ let a;
 let b;
 let operator;
 let result;
+const comma = document.querySelector('#comma');
 
 display.innerHTML = '_';
 
@@ -51,11 +52,17 @@ numberButtons.forEach(button => button.addEventListener('click', inputNumber));
 function inputNumber (e){
     inputArray.push(e.target.value);
     inputString = inputArray.join('');
+
+    if (inputString.includes('.')){
+        comma.disabled = true;
+    };
+
     if (a) {
         b = Number(inputString);
-    } 
+    }
+
     display.innerHTML = inputString;
-}
+};
 
 //Defines operators from buttons and set corresponding operator value
 
@@ -63,18 +70,22 @@ const operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(button =>button.addEventListener('click',setOperator));
 
 function setOperator(e){
-    
-    if (b){
-        result = operate(operator,a,b);
-        display.innerHTML = result;
-        a = result;
+
+if ((a && b == 0) && (operator == '/')){
+    display.innerHTML = "Oops! Division by 0 is impossible!";
+} else if (b){
+    result = operate(operator,a,b);
+    display.innerHTML = result.toFixed(8);
+    a = result;
+
     } else {
-        a = Number(inputString);
-        }
+        a = parseFloat(inputString);
+        };
+
     operator=e.target.value;
     inputArray = [];
-
-}
+    comma.disabled = false;
+    };
 
 //Makes the whole calculation based on previous values
 
@@ -82,10 +93,20 @@ const equalsButton = document.getElementById('equal');
 equalsButton.addEventListener('click',preOperate);
 
 function preOperate(){
-    result = operate(operator,a,b)
-    console.log(result);
-    display.innerHTML= result;
-}
+
+    comma.disabled = false;
+
+    if (operator == '/' && b == 0){
+        display.innerHTML = 'Oops! Division by 0 is impossible!';
+    } else if (a && b && operator){
+        result = operate(operator,a,b);
+        display.innerHTML = result.toFixed(8);
+    } else {
+        clearValues();
+        display.innerHTML = "Error. Please enter values.";
+    };
+    
+};
 
 //Defines the Clear function by erasing display and unset variables
 
@@ -99,4 +120,5 @@ function clearValues(){
     operator = undefined;
     result = undefined;
     display.innerHTML = '_';
-}
+    comma.disabled = false;
+};
