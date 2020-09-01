@@ -34,15 +34,14 @@ function operate (operator,a,b){
 //Variables initialization
 
 let display = document.getElementById('display');
-
 let inputArray = [];
-let displayValue = '_';
+let inputString;
 let a;
 let b;
 let operator;
 let result;
 
-display.innerHTML = displayValue;
+display.innerHTML = '_';
 
 //Add the value of a button to the inputArray and display the corresponding string
 
@@ -51,21 +50,11 @@ numberButtons.forEach(button => button.addEventListener('click', inputNumber));
 
 function inputNumber (e){
     inputArray.push(e.target.value);
-    displayValue = inputArray.join('');
-    display.innerHTML = displayValue;
-}
-
-//Defines the Clear function by erasing display and unset a & b
-
-const clear = document.getElementById('clear');
-clear.addEventListener('click',clearValues);
-
-function clearValues(){
-    inputArray = [];
-    displayValue='_';
-    a = undefined;
-    b = undefined;
-    display.innerHTML = displayValue;
+    inputString = inputArray.join('');
+    if (a) {
+        b = Number(inputString);
+    } 
+    display.innerHTML = inputString;
 }
 
 //Defines operators from buttons and set corresponding operator value
@@ -74,10 +63,17 @@ const operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(button =>button.addEventListener('click',setOperator));
 
 function setOperator(e){
-    display.innerHTML = '_';
-    inputArray = [];
-    a=parseFloat(displayValue);
+    
+    if (b){
+        result = operate(operator,a,b);
+        display.innerHTML = result;
+        a = result;
+    } else {
+        a = Number(inputString);
+        }
     operator=e.target.value;
+    inputArray = [];
+
 }
 
 //Makes the whole calculation based on previous values
@@ -86,8 +82,21 @@ const equalsButton = document.getElementById('equal');
 equalsButton.addEventListener('click',preOperate);
 
 function preOperate(){
-    b=parseFloat(displayValue);
     result = operate(operator,a,b)
     console.log(result);
     display.innerHTML= result;
+}
+
+//Defines the Clear function by erasing display and unset variables
+
+const clear = document.getElementById('clear');
+clear.addEventListener('click',clearValues);
+
+function clearValues(){
+    inputArray = [];
+    a = undefined;
+    b = undefined;
+    operator = undefined;
+    result = undefined;
+    display.innerHTML = '_';
 }
