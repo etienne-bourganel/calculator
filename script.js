@@ -72,10 +72,10 @@ operatorButtons.forEach(button =>button.addEventListener('click',setOperator));
 function setOperator(e){
 
 if ((a && b == 0) && (operator == '/')){
-    display.innerHTML = "Oops! Division by 0 is impossible!";
+    display.innerHTML = "Error";
 } else if (b){
     result = operate(operator,a,b);
-    display.innerHTML = result.toFixed(8);
+    display.innerHTML = parseFloat(result.toFixed(2));
     a = result;
 
     } else {
@@ -97,13 +97,13 @@ function preOperate(){
     comma.disabled = false;
 
     if (operator == '/' && b == 0){
-        display.innerHTML = 'Oops! Division by 0 is impossible!';
+        display.innerHTML = 'Error';
     } else if (a && b && operator){
         result = operate(operator,a,b);
-        display.innerHTML = result.toFixed(8);
+        display.innerHTML = parseFloat(result.toFixed(2));
     } else {
         clearValues();
-        display.innerHTML = "Error. Please enter values.";
+        display.innerHTML = "Error";
     };
     
 };
