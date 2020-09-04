@@ -39,9 +39,9 @@ let inputString;
 let a;
 let b;
 let operator;
-let result = 0;
+let result;
+let inputDigits = 0;
 const comma = document.querySelector('#comma');
-
 
 display.innerHTML = '_';
 
@@ -51,8 +51,12 @@ const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(button => button.addEventListener('click', inputNumber));
 
 function inputNumber (e){
-    inputArray.push(e.target.value);
-    inputString = inputArray.join('');
+    
+    inputDigits ++;
+    if (inputDigits <=9){
+        inputArray.push(e.target.value);
+        inputString = inputArray.join('');
+        }
 
     if (inputString.includes('.')){
         comma.disabled = true;
@@ -60,7 +64,7 @@ function inputNumber (e){
 
     if (a) {
         b = Number(inputString);
-    }
+    } 
 
     display.innerHTML = inputString;
 };
@@ -71,13 +75,18 @@ const operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(button =>button.addEventListener('click',setOperator));
 
 function setOperator(e){
-
+inputDigits = 0;
 if ((a && b == 0) && (operator == '/')){
+    clearValues();
     display.innerHTML = "Error";
 } else if (b){
     result = operate(operator,a,b);
-    display.innerHTML = parseFloat(result.toFixed(2));
+    let digits = result.toString().length; //Counts numbers of digits in result
+        if (digits > 9){
+            display.innerHTML = parseFloat(result.toFixed(2)).toExponential(2);
+        } else display.innerHTML = parseFloat(result.toFixed(2));
     a = result;
+   
 
     } else {
         a = parseFloat(inputString);
@@ -125,4 +134,5 @@ function clearValues(){
     result = undefined;
     display.innerHTML = '_';
     comma.disabled = false;
+    inputDigits = 0;
 };
