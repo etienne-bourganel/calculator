@@ -118,7 +118,7 @@ body {
     text-align: right;
     padding: 10px;
     border-style: solid;
-    border-width:4px;
+    border-width:3px;
     border-color: #4d0000;
 }
 
@@ -128,7 +128,7 @@ button {
     background-color: #ff9999;
     border-style: solid;
     border-width: 2px;
-    border-color: #800000;
+    border-color: #ff6666;
     color: #330000; 
 }
 
@@ -153,6 +153,7 @@ button:hover{
 #clear {
     grid-area: clear;
     background-color: #b32400;
+    color: #ffcccc;
 }
 
 #divide {
@@ -215,7 +216,9 @@ button:hover{
 }
 
 #comma:disabled {
-  color: #ffb3cc;
-  border-color: #990000;
+
+  border-color: #ff9999;
+  background-color: #ffcccc;
+  color: #ffb3b3;
 
 }

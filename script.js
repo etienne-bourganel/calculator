@@ -39,8 +39,9 @@ let inputString;
 let a;
 let b;
 let operator;
-let result;
+let result = 0;
 const comma = document.querySelector('#comma');
+
 
 display.innerHTML = '_';
 
@@ -100,7 +101,10 @@ function preOperate(){
         display.innerHTML = 'Error';
     } else if (a && b && operator){
         result = operate(operator,a,b);
-        display.innerHTML = parseFloat(result.toFixed(2));
+        let digits = result.toString().length; //Counts numbers of digits in result
+        if (digits > 9){
+            display.innerHTML = parseFloat(result.toFixed(2)).toExponential(2);
+        } else display.innerHTML = parseFloat(result.toFixed(2));
     } else {
         clearValues();
         display.innerHTML = "Error";
