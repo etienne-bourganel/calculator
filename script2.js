@@ -27,12 +27,12 @@ function operate (a,b,operator){
     // If (a,b or operator are undefined), return ERROR
 
     if (!a || !b || !operator){
-        result = 'ERROR';
+        return result = 'ERROR';
 
     // Else if (b = 0 and operator = '/'), return ERROR
 
     } else if (b == 0 && operator == '/'){
-        result = 'ERROR'
+        return result = 'ERROR'
 
     // Else return result based on appropriate operation
 
@@ -56,30 +56,59 @@ function operate (a,b,operator){
     result = Number(result.toFixed(2)); 
 
     // If result has more than 9 digits return result in an exponential form
-    
+
     if (result.toString().length > 9) {
         result = result.toExponential(2);
     };
-
     return result;
 };
-
 
 // Get input from user
 
     //Create variables to refer to button elements from html
 
-    // If input is (a number or comma) and (a or operator are not defined) yet, store it in a
-        // Otherwise store input into b
-        // a and b must contain a maximum of 9 digits including comma
-        // If input is a comma, disable possibility to enter a comma until new number input (i.e. after operator has been reassigned)
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', inputInfo));
 
-    // If input is an operator and a is defined, store operator value in operator
-    // Else do nothing
-        
-        // If b is undefined, exit function
-        // Else if (a, b and operator) are defined, perform function operate and store result in a
+let inputArray = [];
+
+function inputInfo(e){
+
+    if ((e.target.className == 'number') && (inputArray.length<9)) {
+                                            
+        inputArray.push(e.target.value);
+
+        if (!operator){
+            a = Number(inputArray.join(''));        
+        } 
+            else if (operator){
+                b = Number(inputArray.join(''));
+            };
+    }
+
+    else if ((e.target.className == 'operator') && (a) && (b)){
+        a = operate (a,b,operator);
+        operator = e.target.value;
+        b = undefined;
+        inputArray = [];
+    }
+
+    else if ((e.target.className == 'operator') && (a)){
+        operator = e.target.value;
+        inputArray = [];
+    } 
 
     // If input is equal sign, perform operate function based on a, b and operator
+    
+    else if (e.target.id == 'equal'){
+        operate(a,b,operator);
+    }
+
+    console.log('a: ' + a);
+    console.log('b: ' + b);
+    console.log('optr: ' + operator);
+    console.log('res: ' + result);
+
+};
 
 //Create a clear function to reset all values
