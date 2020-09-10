@@ -1,206 +1,170 @@
-/* Basic operation functions */
+// Create variables for operations called a, b, result, operator and input variable
 
-function add(a,b){
-    return a+b;
+let a, b, result, operator;
+let inputArray = [];
+
+// Create functions for basic operations called add, substract, multiply and divide
+
+function add (a,b){
+    return result = a + b;
 };
 
 function substract (a,b){
-    return a-b;
+    return result = a - b;
 };
 
 function multiply (a,b){
-    return a*b;
+    return result = a * b;
 };
 
 function divide (a,b){
-    return a/b;
+    return result = a / b;
 };
 
-function operate (operator,a,b){
-    if (operator == '+'){
-        return add(a,b);
-    };
-    if (operator == '-'){
-        return substract(a,b);
-    };
-    if (operator == '*'){
-        return multiply(a,b);
-    };
-    if (operator == '/'){
-        return divide(a,b);
-    };
+// Get input from user
+
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('button');
+const comma = document.getElementById('comma');
+let button;
+
+buttons.forEach(button => button.addEventListener('click', getButton));
+
+window.addEventListener('keydown', inputKey);
+
+
+function getButton(e){
+    button = e.target;
+    inputInfo(button);
 };
 
-//Variables initialization
-
-let display = document.getElementById('display');
-let inputArray = [];
-let inputString;
-let a;
-let b;
-let operator;
-let result;
-let inputDigits = 0;
-const comma = document.querySelector('#comma');
-
-
-display.innerHTML = '_';
-
-
-//Keyboard support
-
-function keyboardInput(e){
+function inputKey(e){
+    button = document.querySelector(`button[data-key="${e.keyCode}"]`);
+    inputInfo(button);
+};
     
-    const button = document.querySelector(`button[data-key="${e.keyCode}"]`);
-    
-    if (button.className == "number"){
 
-        inputDigits ++;
-        if (inputDigits <=9){
-            inputArray.push(button.value);
-            inputString = inputArray.join('');
-            }
+function inputInfo(button){
 
-        if (inputString.includes('.')){
-            comma.disabled = true;
+    switch (button.className) {
+        case 'number':
+            numberInput(button);
+            break;
+
+        case 'operator':
+            operatorInput(button);
+            break;
+
+        case 'result':
+            operate();
+            break;
+
+        case 'clear':
+            clear();
+            break;
+    };
+
+    consoleLog();
+};
+
+function numberInput(button){
+
+    // Update the values of the agurments based on input
+
+    if (inputArray.length>=9) {
+        return;
+    };
+                                            
+    inputArray.push(button.value);
+
+    if (!operator){
+        a = Number(inputArray.join(''));
+        updateDisplay(a);        
+    } 
+        else if (operator){
+            b = Number(inputArray.join(''));
+            updateDisplay(b);
         };
-
-        if (a && operator) {
-            b = Number(inputString);
-        } else a = Number(inputString);
-
-        display.innerHTML = inputString;
-    };
-
-    if (button.className == "operator"){
-        operator = button.value;
-        setOperator();
-    }
-
-    if (button.className == 'result'){
-        preOperate();
-    }
-
-    if (button.className == 'clear'){
-        clearValues();
-    }
-    updateValues();
-};
-
-window.addEventListener('keydown', keyboardInput);
-
-//Add the value of a button to the inputArray and display the corresponding string
-
-const numberButtons = document.querySelectorAll('.number');
-numberButtons.forEach(button => button.addEventListener('click', inputNumber));
-
-function inputNumber (e){
     
-    inputDigits ++;
-    if (inputDigits <=9){
-        inputArray.push(e.target.value);
-        inputString = inputArray.join('');
-        }
-
-    if (inputString.includes('.')){
+    if ((button.id) == 'comma'){
         comma.disabled = true;
     };
-
-    if (a && operator) {
-        b = Number(inputString);
-    } else a = Number(inputString);
-
-    updateValues();
-    display.innerHTML = inputString;
-    
 };
 
-//Defines operators from buttons and set corresponding operator value
+function operatorInput(button){
 
-const operatorButtons = document.querySelectorAll('.operator');
-operatorButtons.forEach(button => button.addEventListener('click',setOperator));
+    // Update the operator based on input and makes the operation if there are 2 arguments
 
-function setOperator(e){
-
-    inputDigits = 0;
-
-    if ((a && b == 0) && (operator == '/')){
-        clearValues();
-        display.innerHTML = "Error";
-        updateValues();
-
-    } else if (b){
-        result = operate(operator,a,b);
-
-        let resultDigits = result.toString().length; //Counts numbers of digits in result
-            if (resultDigits > 9){
-                display.innerHTML = parseFloat(result.toFixed(2)).toExponential(2);
-            } else display.innerHTML = parseFloat(result.toFixed(2));
-
-        a = result;
+    if (a && b) {
+        a = operate (a,b,operator);
+        operator = button.value;
         b = undefined;
-
-        } //else {
-           //a = Number(inputString);
-        //};
-        if (!operator){
-            operator=e.target.value;
-        };
-
         inputArray = [];
-        comma.disabled = false;
-        updateValues();
-        
-    };
+        updateDisplay(a);
 
-//Makes the whole calculation based on previous values
-
-const equalsButton = document.getElementById('equal');
-equalsButton.addEventListener('click',preOperate);
-
-function preOperate(){
+    } else if (a) {
+        operator = button.value;
+        inputArray = [];
+    }; 
 
     comma.disabled = false;
-
-    if (operator == '/' && b == 0){
-        clearValues();
-        display.innerHTML = 'Error';
-    } else if (a && b && operator){
-        result = operate(operator,a,b);
-        let resultDigits = result.toString().length; //Counts numbers of digits in result
-        if ((resultDigits > 9)&&((result>999999999)||(result<-999999999))){
-            display.innerHTML = parseFloat(result.toFixed(2)).toExponential(2);
-        } else display.innerHTML = parseFloat(result.toFixed(2));
-    } else {
-        clearValues();
-        display.innerHTML = "Error";
-    };
-    updateValues();
-    
 };
 
-//Defines the Clear function by erasing display and unset variables
+function operate (){
 
-const clear = document.getElementById('clear');
-clear.addEventListener('click',clearValues);
+    // Returns 'ERROR' if not enough arguments or if division by zero
 
-function clearValues(){
+    if ((!a || !b || !operator) || (b == 0 && operator == '/')){
+        result = 'ERROR';
+        updateDisplay('ERROR');
+        return;
+
+    } else switch (operator) {
+        case '+':
+            add (a,b);
+            break;
+        case '-':
+            substract(a,b);
+            break;
+        case '*':
+            multiply(a,b);
+            break;
+        case '/':
+            divide(a,b);
+            break;
+    };
+
+    // Round result to 2 decimals and return result in an exponential form if result has more than 9 digits 
+
+    result = Number(result.toFixed(2)); 
+
+    if (result.toString().length > 9) {
+        result = result.toExponential(2);
+    };
+
+    comma.disabled = false;
+    updateDisplay(result);
+
+    return result;
+};
+
+// Create a clear function to reset all values
+
+function clear(){
+    a = b = result = operator = undefined;
     inputArray = [];
-    a = undefined;
-    b = undefined;
-    operator = undefined;
-    result = undefined;
-    display.innerHTML = '_';
     comma.disabled = false;
-    inputDigits = 0;
-    updateValues();
+    updateDisplay(0);
 };
 
-const values = document.getElementById('values');
+function updateDisplay(x){
+    display.innerHTML = x;
+};
 
-function updateValues(){
-values.innerHTML = ('a = ' + a + "<br />" + 
-                    'b = ' + b + "<br />" + 
-                    'operator = ' + operator + "<br />" +
-                    'result = ' + result + "<br />");
+function consoleLog(){
+    console.log('a: ' + a);
+    console.log('b: ' + b);
+    console.log('operator: ' + operator);
+    console.log('result: ' + result);
+    console.log('******************');
 };

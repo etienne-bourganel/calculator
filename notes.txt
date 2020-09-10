@@ -1,0 +1,20 @@
+Calculator
+
+ *** To do ***
+
+🔴 Backspace functionality
+
+ *** Done *** 
+
+🟢 Clear function 
+🟢 Comma disable after entry
+🟢 Display
+🟢 Keyboard integration
+🟢 Project folder update
+
+*** Completion *** 
+
+🟢 100%
+🟡 70% 
+🟠 30%
+🔴 0%
