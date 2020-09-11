@@ -2,7 +2,10 @@ Calculator
 
  *** To do ***
 
+🔴 Button layout once clicked
 🔴 Backspace functionality
+🔴 Rounding 
+🔴 Truly responsive (phone)
 
  *** Done *** 
 
