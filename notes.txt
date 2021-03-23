@@ -2,6 +2,7 @@ Calculator
 
  *** To do ***
 
+🔴 Add credits
 🔴 Button layout once clicked
 🔴 Backspace functionality
 🔴 Rounding 
