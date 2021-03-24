@@ -1,84 +1,78 @@
 body {
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  text-rendering: optimizeSpeed;
-  line-height: 1.5;
-}
-
-@font-face{
-    font-family:'digital-clock-font';
-    src:  url(/digital-7.ttf) format("truetype"),
-          local("sans-serif");
-   }
-
-body {
-  background-color: gray;
+    background: rgb(238, 174, 202);
+    background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    font-family: monospace;
+    line-height: 1.5;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
 }
 
 #main-container {
+    background-color: #ffcccc;
     border-style: solid;
     border-width: 2px;
-    padding:10px;
-    background-color: #ffcccc;
     box-shadow: 0 0 10px;
-    position: absolute;
-    top: 80px;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%);
     display: grid;
+    font-family: 'Courier New', Courier, monospace;
     gap: 3px;
+    grid-template-areas:
+        "display display display display"
+        "clear clear clear divide"
+        "seven eight nine multiply"
+        "four five six substract"
+        "one two three add"
+        "zero zero comma equal";
     grid-template-columns: repeat(4, 60px);
     grid-template-rows: [first] 80px [line2] 60px [line3] 60px [col4-start] 60px [five] 60px [six] 60px [end];
-    grid-template-areas: 
-    "display display display display"
-    "clear clear clear divide"
-    "seven eight nine multiply"
-    "four five six substract"
-    "one two three add"
-    "zero zero comma equal";
-
+    left: 50%;
+    margin-right: -50%;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #display {
-    grid-area: display;
-    font-family: "digital-clock-font";
-    font-size: 50px;
-    color: #4d0000;
     background-color: #e6e6ff;
-    text-align: right;
-    padding: 10px;
-    border-style: solid;
-    border-width:3px;
     border-color: #4d0000;
+    border-style: solid;
+    border-width: 3px;
     box-shadow: inset 0 0 5px;
+    color: #4d0000;
+    font-size: 43px;
+    grid-area: display;
+    padding: 10px;
+    text-align: right;
 }
 
 button {
-    font-size: 30px;
-    font-family: Arial, Helvetica, sans-serif;
     background-color: #ff9999;
+    border-color: #ff6666;
     border-style: solid;
     border-width: 2px;
-    border-color: #ff6666;
-    color: #330000; 
     box-shadow: 1px 1px 3px;
+    color: #330000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
 }
 
 button:focus {
-  outline: none;
-  box-shadow: none;
-  outline: none;
+    box-shadow: none;
+    outline: none;
+    outline: none;
 }
 
 button:active {
-  outline: none;
-  box-shadow: none;
-  outline: none;
+    box-shadow: none;
+    outline: none;
+    outline: none;
 }
 
-button:hover { 
-  box-shadow: inset 0 0 1px;
+button:hover {
+    box-shadow: inset 0 0 1px;
 }
 
 .operator {
@@ -86,14 +80,19 @@ button:hover {
 }
 
 #equal {
-  grid-area: equal;
-  background-color: #ff6666;
+    background-color: #ff6666;
+    grid-area: equal;
 }
 
 #clear {
-    grid-area: clear;
-    background-color: #b32400;
+    background-color: #af3416;
+    box-shadow: 1px 1px 3px;
     color: #ffcccc;
+    grid-area: clear;
+}
+
+.clear:hover {
+    background-color: #772511;
 }
 
 #divide {
@@ -143,6 +142,7 @@ button:hover {
 #seven {
     grid-area: seven;
 }
+
 #eight {
     grid-area: eight;
 }
